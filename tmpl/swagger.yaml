@@ -1,0 +1,57 @@
+swagger: "2.0"
+info:
+  description: "{{ .Config.Description }}"
+  version: "{{ .Config.Version }}"
+  title: "{{ .Config.Title }}"
+host: "{{ .Config.Host }}"
+basePath: "{{ .Config.BasePath }}"
+tags:
+{{ range $key, $value := .Entities }}
+- name: "{{ $key | GetGroupName }}"
+  description: ""
+{{ end }}
+schemes:
+- "https"
+paths:
+{{- range $key, $paths := .Entities }}
+{{- range $path, $resources := $paths }}
+  {{ $path | RemovePathPrefix}}:
+    {{- range $kk, $resource := $resources }}
+    {{ $resource.Method | ToLower }}:
+      tags:
+      - "{{ $key | GetGroupName }}"
+      summary: "{{ $resource.Name }}"
+      {{- if or $resource.InsomniaParams $resource.Body.Params $resource.Headers }}
+      {{- if $resource.Body.MimeType }}
+      consumes:
+        - "{{ $resource.Body.MimeType }}"
+      {{- end }}
+      parameters:
+      {{- range $p, $param := $resource.InsomniaParams}}
+      - name: "{{ $param }}"
+        in: "path"
+        type: "string"
+        description: ""
+        required: true
+      {{- end }}
+      {{- range $p, $param := $resource.Body.Params}}
+      - name: "{{ $param.Name }}"
+        in: "formData"
+        type: "string"
+        description: ""
+        required: true
+      {{- end }}
+      {{- range $p, $param := $resource.Headers}}
+      - name: "{{ $param.Name }}"
+        in: "header"
+        type: "string"
+        description: ""
+        required: true
+      {{- end }}
+      {{- end }}
+      responses:
+        200:
+          description: "successful operation"
+    {{- end }}
+{{- end }}
+{{- end }}
