@@ -1,0 +1,8 @@
+{
+  "title" : "InterCloud API",
+  "version" : "1.0.0",
+  "host" : "api.intercloud.com",
+  "bastPath" : "/api/v1",
+  "schemes" : "https",
+  "description" : "The InterCloud platform helps global enterprises control, secure and manage their access to cloud applications. The InterCloud REST API provides a convenient and simple Web services API, enabling customer to automate and integrate our set of management and supervision capabilities with their own information system."
+}
