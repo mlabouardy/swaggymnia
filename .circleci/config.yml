@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: golang:1.8
 
-    working_directory: /go/src/github.com/mlabouardy/swagymnia
+    working_directory: /go/src/github.com/mlabouardy/swaggymnia
 
     steps:
       - checkout
