@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: golang:1.8
+
+    working_directory: /go/src/github.com/mlabouardy/swagymnia
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: go get -v
+
+      - run:
+          name: Run Unit Tests
+          command: go test

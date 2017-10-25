@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"html/template"
@@ -9,6 +10,8 @@ import (
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/ghodss/yaml"
 
 	. "./models"
 )
@@ -84,7 +87,45 @@ func (s Swagger) Generate(insomniaFile string, configFile string, output string)
 }
 
 func (s Swagger) generateJSON(entities map[string]map[string][]Resource, config ConfigSwagger) {
-	log.Fatal("JSON format isn't supported !")
+	funcMap := template.FuncMap{
+		"ToLower": strings.ToLower,
+		"RemovePathPrefix": func(path string) string {
+			re := regexp.MustCompile("{{(.*?)}}")
+			for _, param := range re.FindAllStringSubmatch(path, -1) {
+				path = strings.Replace(path, param[0], "", -1)
+			}
+			return path
+		},
+		"GetGroupName": func(id string) string {
+			return groups[id]
+		},
+	}
+	tmpl, err := template.New("swagger.yaml").Funcs(funcMap).ParseFiles("tmpl/swagger.yaml")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	res := struct {
+		Config   ConfigSwagger
+		Entities map[string]map[string][]Resource
+	}{
+		config,
+		entities,
+	}
+
+	var tpl bytes.Buffer
+	err = tmpl.Execute(&tpl, res)
+	if err != nil {
+		fmt.Println(err)
+	}
+	data, err := yaml.YAMLToJSON(tpl.Bytes())
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = ioutil.WriteFile("swagger.json", data, 0644)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func (s Swagger) generateYAML(entities map[string]map[string][]Resource, config ConfigSwagger) {
@@ -101,7 +142,12 @@ func (s Swagger) generateYAML(entities map[string]map[string][]Resource, config 
 			return groups[id]
 		},
 	}
-	tmpl, err := template.New("swagger.yaml").Funcs(funcMap).ParseFiles("tmpl/swagger.yaml")
+
+	data, err := Asset("tmpl/swagger.yaml")
+	if err != nil {
+		fmt.Println(err)
+	}
+	tmpl, err := template.New("swagger.yaml").Funcs(funcMap).Parse(string(data))
 	if err != nil {
 		fmt.Println(err)
 	}

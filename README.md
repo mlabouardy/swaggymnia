@@ -2,3 +2,5 @@
 Convert Insomnia REST API to Swagger Docs
 
 # To Do
+
+- Support JSON Body
