@@ -34,15 +34,20 @@ func main() {
 					Name:  "insomnia, i",
 					Usage: "Insomnia JSON `FILE`",
 				},
+				cli.StringFlag{
+					Name:  "output, o",
+					Value: "yaml",
+					Usage: "Output json|yaml",
+				},
 			},
 			Usage: "generate Swagger documentation",
 			Action: func(c *cli.Context) error {
 				if c.String("config") == "" || c.String("insomnia") == "" {
-					return cli.NewExitError("config & insomnia flags are required", 86)
+					return cli.NewExitError("config & insomnia flags are required", 1)
 				}
 
 				swagger := Swagger{}
-				swagger.Generate(c.String("insomnia"), c.String("config"))
+				swagger.Generate(c.String("insomnia"), c.String("config"), c.String("output"))
 
 				fmt.Println("Swagger Documentation has been generated !")
 				return nil
