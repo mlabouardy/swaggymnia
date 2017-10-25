@@ -13,7 +13,7 @@ import (
 
 	"github.com/ghodss/yaml"
 
-	. "./models"
+	. "github.com/mlabouardy/swaggymnia/models"
 )
 
 type ParentID string
