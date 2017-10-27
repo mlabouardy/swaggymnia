@@ -5,3 +5,17 @@ Convert Insomnia REST API to Swagger Docs
 # To Do
 
 - Support JSON Body
+
+# Docker image
+
+You can use swaggymnia through official Docker image (automated build on DockerHub from this repository)
+
+```
+docker run --rm -v $PWD:/data mlabouardy/swaggymnia [options and arguments...]
+```
+
+You need to mount some local directory at /data so input and output files can be accessed by the container
+
+## Maintainers
+
+- Mohamed Labouardy

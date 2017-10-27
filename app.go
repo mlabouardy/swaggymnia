@@ -39,7 +39,7 @@ func main() {
 					Usage: "Output json|yaml",
 				},
 			},
-			Usage: "generate Swagger documentation",
+			Usage: "Generate Swagger documentation",
 			Action: func(c *cli.Context) error {
 				if c.String("config") == "" || c.String("insomnia") == "" {
 					return cli.NewExitError("config & insomnia flags are required", 1)
