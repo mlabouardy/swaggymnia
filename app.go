@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"time"
 
@@ -10,7 +9,7 @@ import (
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "cay"
+	app.Name = "swaggymnia"
 	app.Usage = "Convert Insomnia to Swagger"
 	app.Version = "1.0.0"
 	app.Compiled = time.Now()
@@ -46,10 +45,9 @@ func main() {
 					return cli.NewExitError("config & insomnia flags are required", 1)
 				}
 
-				swagger := Swagger{}
+				swagger := &Swagger{}
 				swagger.Generate(c.String("insomnia"), c.String("config"), c.String("output"))
 
-				fmt.Println("Swagger Documentation has been generated !")
 				return nil
 			},
 		},

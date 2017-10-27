@@ -1,18 +1,15 @@
 package models
 
 type Resource struct {
-	ID           string        `json:"_id"`
-	ParentID     string        `json:"parentId"`
-	Modified     int64         `json:"modified"`
-	Created      int64         `json:"created"`
-	Name         string        `json:"name"`
-	Description  string        `json:"description,omitempty"`
-	Certificates []interface{} `json:"certificates,omitempty"`
-	Type         string        `json:"_type"`
-	Data         struct {
-		BaseURL string `json:"base_url"`
-		RefURL  string `json:"ref_url"`
-	} `json:"data,omitempty"`
+	ID                              string         `json:"_id"`
+	ParentID                        string         `json:"parentId"`
+	Modified                        int64          `json:"modified"`
+	Created                         int64          `json:"created"`
+	Name                            string         `json:"name"`
+	Description                     string         `json:"description,omitempty"`
+	Certificates                    []interface{}  `json:"certificates,omitempty"`
+	Type                            string         `json:"_type"`
+	Data                            DataUrl        `json:"data,omitempty"`
 	Color                           interface{}    `json:"color,omitempty"`
 	Cookies                         []interface{}  `json:"cookies,omitempty"`
 	Environment                     struct{}       `json:"environment,omitempty"`
@@ -44,4 +41,9 @@ type EntityParam struct {
 type EntityHeader struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
+}
+
+type DataUrl struct {
+	BaseURL string `json:"base_url"`
+	RefURL  string `json:"ref_url"`
 }

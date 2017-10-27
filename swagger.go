@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -16,37 +15,46 @@ import (
 	. "github.com/mlabouardy/swaggymnia/models"
 )
 
-type ParentID string
-
-var groups map[string]string
+var groupNames map[string]string
 
 const (
 	REQUEST_GROUP = "request_group"
 	REQUEST       = "request"
+	YAML_FORMAT   = "yaml"
+	JSON_FORMAT   = "json"
 )
 
 type Swagger struct {
-	Config   ConfigSwagger
+	Config   SwaggerConfig
 	Entities map[string]map[string][]Resource
 }
 
-func (c Swagger) parse(insomnia Insomnia) map[string]map[string][]Resource {
-	groups = make(map[string]string)
-	list := make(map[string]map[string][]Resource)
+type SwaggerConfig struct {
+	Title       string `json:"title"`
+	Version     string `json:"version"`
+	Host        string `json:"host"`
+	BasePath    string `json:"bastPath"`
+	Schemes     string `json:"schemes"`
+	Description string `json:"description"`
+}
+
+func parse(insomnia Insomnia) map[string]map[string][]Resource {
+	groupNames = make(map[string]string)
+	entities := make(map[string]map[string][]Resource)
 	for _, resource := range insomnia.Resources {
 		if resource.Type == REQUEST_GROUP {
-			groups[resource.ID] = resource.Name
-			list[resource.ID] = make(map[string][]Resource, 0)
+			groupNames[resource.ID] = resource.Name
+			entities[resource.ID] = make(map[string][]Resource, 0)
 		}
 		if resource.Type == REQUEST {
 			fetchVariables(&resource)
-			list[resource.ParentID][resource.URL] = append(list[resource.ParentID][resource.URL], resource)
+			entities[resource.ParentID][resource.URL] = append(entities[resource.ParentID][resource.URL], resource)
 		}
 	}
-	return list
+	return entities
 }
 
-func (c Swagger) readInsomniaExport(fileName string) Insomnia {
+func readInsomniaExport(fileName string) Insomnia {
 	raw, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		log.Fatal(err)
@@ -58,35 +66,34 @@ func (c Swagger) readInsomniaExport(fileName string) Insomnia {
 	return insomnia
 }
 
-func (c Swagger) readSwaggerConfig(fileName string) ConfigSwagger {
+func readSwaggerConfig(fileName string) SwaggerConfig {
 	raw, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		log.Fatal(err)
 	}
-	var config ConfigSwagger
+	var config SwaggerConfig
 	if err := json.Unmarshal(raw, &config); err != nil {
 		log.Fatal(err)
 	}
 	return config
 }
 
-func (s Swagger) Generate(insomniaFile string, configFile string, output string) {
-	insomnia := s.readInsomniaExport(insomniaFile)
-	config := s.readSwaggerConfig(configFile)
-	entities := s.parse(insomnia)
-	switch output {
-	case "yaml":
-		s.generateYAML(entities, config)
+func (s *Swagger) Generate(insomniaFile string, configFile string, outputFormat string) {
+	s.Config = readSwaggerConfig(configFile)
+	s.Entities = parse(readInsomniaExport(insomniaFile))
+	switch outputFormat {
+	case YAML_FORMAT:
+		s.generateYAML()
 		break
-	case "json":
-		s.generateJSON(entities, config)
+	case JSON_FORMAT:
+		s.generateJSON()
 		break
 	default:
 		log.Fatal("Format isn't supported !")
 	}
 }
 
-func (s Swagger) generateJSON(entities map[string]map[string][]Resource, config ConfigSwagger) {
+func (s Swagger) initTemplate() *template.Template {
 	funcMap := template.FuncMap{
 		"ToLower": strings.ToLower,
 		"RemovePathPrefix": func(path string) string {
@@ -97,75 +104,49 @@ func (s Swagger) generateJSON(entities map[string]map[string][]Resource, config 
 			return path
 		},
 		"GetGroupName": func(id string) string {
-			return groups[id]
+			return groupNames[id]
 		},
 	}
-	tmpl, err := template.New("swagger.yaml").Funcs(funcMap).ParseFiles("tmpl/swagger.yaml")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	res := struct {
-		Config   ConfigSwagger
-		Entities map[string]map[string][]Resource
-	}{
-		config,
-		entities,
-	}
-
-	var tpl bytes.Buffer
-	err = tmpl.Execute(&tpl, res)
-	if err != nil {
-		fmt.Println(err)
-	}
-	data, err := yaml.YAMLToJSON(tpl.Bytes())
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = ioutil.WriteFile("swagger.json", data, 0644)
-	if err != nil {
-		fmt.Println(err)
-	}
-}
-
-func (s Swagger) generateYAML(entities map[string]map[string][]Resource, config ConfigSwagger) {
-	funcMap := template.FuncMap{
-		"ToLower": strings.ToLower,
-		"RemovePathPrefix": func(path string) string {
-			re := regexp.MustCompile("{{(.*?)}}")
-			for _, param := range re.FindAllStringSubmatch(path, -1) {
-				path = strings.Replace(path, param[0], "", -1)
-			}
-			return path
-		},
-		"GetGroupName": func(id string) string {
-			return groups[id]
-		},
-	}
-
 	data, err := Asset("tmpl/swagger.yaml")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	tmpl, err := template.New("swagger.yaml").Funcs(funcMap).Parse(string(data))
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
+	return tmpl
+}
+
+func (s Swagger) generateJSON() {
+	tmpl := s.initTemplate()
+
+	var tpl bytes.Buffer
+	err := tmpl.Execute(&tpl, s)
+	if err != nil {
+		log.Fatal(err)
+	}
+	data, err := yaml.YAMLToJSON(tpl.Bytes())
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = ioutil.WriteFile("swagger.json", data, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (s Swagger) generateYAML() {
+	tmpl := s.initTemplate()
+
 	f, err := os.Create("swagger.yaml")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
-	res := struct {
-		Config   ConfigSwagger
-		Entities map[string]map[string][]Resource
-	}{
-		config,
-		entities,
-	}
-	err = tmpl.Execute(f, res)
+	err = tmpl.Execute(f, s)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 }
 
