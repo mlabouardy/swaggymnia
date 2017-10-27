@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master.svg?style=svg&circle-token=bcfce92d1e46aaf0d50b4b3fa8baf8406d4bc115)](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![CircleCI](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master.svg?style=svg&circle-token=bcfce92d1e46aaf0d50b4b3fa8baf8406d4bc115)](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master) [![Go Report Card](https://goreportcard.com/badge/github.com/mlabouardy/swaggymnia)](https://goreportcard.com/report/github.com/mlabouardy/swaggymnia) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 Convert Insomnia REST API to Swagger Docs
 
