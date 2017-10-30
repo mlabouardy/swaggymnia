@@ -2,6 +2,12 @@
 
 Convert Insomnia REST API to Swagger Docs
 
+# Build
+
+```
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+```
+
 # To Do
 
 - Support JSON Body
