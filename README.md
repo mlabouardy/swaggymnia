@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" width="70%"/>
+  <img src="logo.png" width="50%"/>
 </div>
 
 [![CircleCI](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master.svg?style=svg&circle-token=bcfce92d1e46aaf0d50b4b3fa8baf8406d4bc115)](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
@@ -73,6 +73,10 @@ $ swaggymnia generate -i examples/watchnow.json -c examples/config.json -o json
   "description" : "API description"
 }
 ```
+
+## Tutorials
+
+* [Generate beautiful Swagger Documentation from Insomnia](http://www.blog.labouardy.com/generate-swagger-documentation-from-insomnia-rest-client/)
 
 ## Maintainers
 
