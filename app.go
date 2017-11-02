@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -10,8 +11,8 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "swaggymnia"
-	app.Usage = "Convert Insomnia to Swagger"
-	app.Version = "1.0.0"
+	app.Usage = "Insomnia to Swagger converter"
+	app.Version = "1.0.0-beta"
 	app.Compiled = time.Now()
 	app.Authors = []cli.Author{
 		cli.Author{
@@ -19,7 +20,6 @@ func main() {
 			Email: "mohamed@labouardy.com",
 		},
 	}
-	app.EnableBashCompletion = true
 	app.Commands = []cli.Command{
 		{
 			Name:    "generate",
@@ -41,17 +41,27 @@ func main() {
 			},
 			Usage: "Generate Swagger documentation",
 			Action: func(c *cli.Context) error {
-				if c.String("config") == "" || c.String("insomnia") == "" {
-					return cli.NewExitError("config & insomnia flags are required", 1)
+				var insomniaFile = c.String("insomnia")
+				var configFile = c.String("config")
+				var outputFormat = c.String("output")
+
+				if insomniaFile == "" || configFile == "" {
+					cli.ShowCompletions(c)
+				}
+
+				if outputFormat == "" {
+					outputFormat = "json"
 				}
 
 				swagger := &Swagger{}
-				swagger.Generate(c.String("insomnia"), c.String("config"), c.String("output"))
+				swagger.Generate(insomniaFile, configFile, outputFormat)
 
 				return nil
 			},
 		},
 	}
-
+	app.CommandNotFound = func(c *cli.Context, command string) {
+		fmt.Fprintf(c.App.Writer, "Wrong command %q !", command)
+	}
 	app.Run(os.Args)
 }

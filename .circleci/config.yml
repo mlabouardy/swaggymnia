@@ -28,6 +28,10 @@ jobs:
             mv /tmp/docker/* /usr/bin
 
       - run:
+          name: Docker version
+          command: docker version
+          
+      - run:
           name: Build Docker image
           command: docker build -t mlabouardy/swaggymnia:$CIRCLE_SHA1 .
 

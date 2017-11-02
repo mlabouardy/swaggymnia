@@ -89,7 +89,7 @@ func (s *Swagger) Generate(insomniaFile string, configFile string, outputFormat 
 		s.generateJSON()
 		break
 	default:
-		log.Fatal("Format isn't supported !")
+		log.Fatal("Only json or yaml formats are supported")
 	}
 }
 
