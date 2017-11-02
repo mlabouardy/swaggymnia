@@ -37,7 +37,7 @@ $ swaggymnia generate -insomnia INSOMNIA_EXPORTED_FILE -config CONFIG_FILE -outp
 | Option | Description |
 | ------ | ----------- |
 | -insomnia | Insomnia exported file |
-| -config | API Global Configuration file (see [API Configuration Structure File](#License))|
+| -config | API Global Configuration file (see [Configuration Format](#configuration-format))|
 | -output | Insomnia output format (json or yaml, default json)  |
 
 
@@ -59,7 +59,7 @@ $ swaggymnia generate -i examples/watchnow.json -c examples/config.json -o json
   <img src="swagger.png"/>
 </div>
 
-## API Configuration file
+## Configuration Format
 
 ```
 {
