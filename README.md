@@ -1,8 +1,18 @@
-[![CircleCI](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master.svg?style=svg&circle-token=bcfce92d1e46aaf0d50b4b3fa8baf8406d4bc115)](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![CircleCI](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master.svg?style=svg&circle-token=bcfce92d1e46aaf0d50b4b3fa8baf8406d4bc115)](https://circleci.com/gh/mlabouardy/swaggymnia/tree/master) [![Go Report Card](https://goreportcard.com/badge/github.com/mlabouardy/swaggymnia)](https://goreportcard.com/report/github.com/mlabouardy/swaggymnia) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 # Swaggymnia
 
+<<<<<<< HEAD
 Generate Swagger Documentation from Insomnia REST Client
+=======
+# Build
+
+```
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+```
+
+# To Do
+>>>>>>> 312d4e9649f6c252873b4af70ce166edb7a753d4
 
 ## Download
 
