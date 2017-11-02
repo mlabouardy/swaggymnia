@@ -13,13 +13,13 @@ Below are the available downloads for the latest version of Swaggymnia  (1.0.0-b
 ### Linux:
 
 ```
-wget https://s3.eu-west-2.amazonaws.com/swaggymnia/1.0.0-beta/linux/swaggymnia
+wget https://s3.amazonaws.com/swaggymnia/1.0.0-beta/linux/swaggymnia
 ```
 
 ### Windows:
 
 ```
-wget https://s3.eu-west-2.amazonaws.com/swaggymnia/1.0.0-beta/windows/swaggymnia
+wget https://s3.amazonaws.com/swaggymnia/1.0.0-beta/windows/swaggymnia
 ```
 
 ## How to use it
@@ -39,7 +39,7 @@ $ swaggymnia generate -insomnia INSOMNIA_EXPORTED_FILE -config CONFIG_FILE -outp
 | Option | Description |
 | ------ | ----------- |
 | -insomnia | Insomnia exported file |
-| -config | API Global Configuration file (see [API Configuration Structure File](#License))|
+| -config | API Global Configuration file (see [Configuration Format](#configuration-format))|
 | -output | Insomnia output format (json or yaml, default json)  |
 
 
@@ -61,7 +61,7 @@ $ swaggymnia generate -i examples/watchnow.json -c examples/config.json -o json
   <img src="swagger.png"/>
 </div>
 
-## API Configuration file
+## Configuration Format
 
 ```
 {
