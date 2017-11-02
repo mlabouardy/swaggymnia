@@ -2,17 +2,7 @@
 
 # Swaggymnia
 
-<<<<<<< HEAD
 Generate Swagger Documentation from Insomnia REST Client
-=======
-# Build
-
-```
-CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
-```
-
-# To Do
->>>>>>> 312d4e9649f6c252873b4af70ce166edb7a753d4
 
 ## Download
 
@@ -58,6 +48,8 @@ Let's convert the following Insomnia API documentation to Swagger:
 <div align="center">
   <img src="insomnia.png"/>
 </div>
+
+Issue the following command:
 
 ```
 $ swaggymnia generate -i examples/watchnow.json -c examples/config.json -o json
