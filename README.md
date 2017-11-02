@@ -11,13 +11,13 @@ Below are the available downloads for the latest version of Swaggymnia  (1.0.0-b
 ### Linux:
 
 ```
-wget https://s3.eu-west-2.amazonaws.com/swaggymnia/1.0.0-beta/linux/swaggymnia
+wget https://s3.amazonaws.com/swaggymnia/1.0.0-beta/linux/swaggymnia
 ```
 
 ### Windows:
 
 ```
-wget https://s3.eu-west-2.amazonaws.com/swaggymnia/1.0.0-beta/windows/swaggymnia
+wget https://s3.amazonaws.com/swaggymnia/1.0.0-beta/windows/swaggymnia
 ```
 
 ## How to use it
