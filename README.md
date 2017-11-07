@@ -22,6 +22,24 @@ wget https://s3.amazonaws.com/swaggymnia/1.0.0-beta/linux/swaggymnia
 wget https://s3.amazonaws.com/swaggymnia/1.0.0-beta/windows/swaggymnia
 ```
 
+### Mac OS X:
+
+```
+wget https://s3.amazonaws.com/swaggymnia/1.0.0-beta/osx/swaggymnia
+```
+
+### FreeBSD:
+
+```
+wget https://s3.amazonaws.com/swaggymnia/1.0.0-beta/freebsd/swaggymnia
+```
+
+### OpenBSD:
+
+```
+wget https://s3.amazonaws.com/swaggymnia/1.0.0-beta/openbsd/swaggymnia
+```
+
 ## How to use it
 
 See usage with:
