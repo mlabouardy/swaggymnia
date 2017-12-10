@@ -33,7 +33,7 @@ type SwaggerConfig struct {
 	Title       string `json:"title"`
 	Version     string `json:"version"`
 	Host        string `json:"host"`
-	BasePath    string `json:"bastPath"`
+	BasePath    string `json:"basePath"`
 	Schemes     string `json:"schemes"`
 	Description string `json:"description"`
 }
