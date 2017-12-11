@@ -86,7 +86,7 @@ $ swaggymnia generate -i examples/watchnow.json -c examples/config.json -o json
   "title" : "API Name",
   "version" : "API version",
   "host" : "API URL",
-  "bastPath" : "Base URL",
+  "basePath" : "Base URL",
   "schemes" : "HTTP protocol",
   "description" : "API description"
 }

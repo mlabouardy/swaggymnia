@@ -2,7 +2,7 @@
   "title" : "WatchNow API",
   "version" : "1.0.0",
   "host" : "api.watchnow.com",
-  "bastPath" : "/v1",
+  "basePath" : "/v1",
   "schemes" : "https",
   "description" : "This API allows you to get in real time movies playing in theatre."
 }
