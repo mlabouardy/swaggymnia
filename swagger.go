@@ -48,6 +48,9 @@ func parse(insomnia Insomnia) map[string]map[string][]Resource {
 		}
 		if resource.Type == REQUEST {
 			fetchVariables(&resource)
+			if entities[resource.ParentID] == nil {
+				entities[resource.ParentID] = make(map[string][]Resource, 0)
+			}
 			entities[resource.ParentID][resource.URL] = append(entities[resource.ParentID][resource.URL], resource)
 		}
 	}
